@@ -2,6 +2,7 @@ package mil.idf.af.ofek.io;
 
 import static mil.idf.af.ofek.TestResources.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.util.Random;
 import mil.idf.af.ofek.FileEncryptor;
 import mil.idf.af.ofek.crypto.EncryptionAlgorithm;
 import mil.idf.af.ofek.crypto.ShiftUpEncryption;
+import mil.idf.af.ofek.logs.EncryptionEvent;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,8 @@ public class FileEncryptorTest {
   private int                        key;
   private static FileInteractor      fi = new FileInteractor();
   private static EncryptionAlgorithm ea = new ShiftUpEncryption();
-  private static FileEncryptor       $  = new FileEncryptor(ea);
+  private static FileEncryptor       $  = new FileEncryptor(ea,
+                                            mock(EncryptionEvent.class));
   
   private void verifyAlgorithm(String s, int eKey) {
     if (!s.equals(ea.decrypt(ea.encrypt(s, eKey), eKey))) {
@@ -45,6 +48,8 @@ public class FileEncryptorTest {
     Files.deleteIfExists(Paths.get(DECRYPTED_FILE));
     Files.deleteIfExists(Paths.get(KEY_FILE));
     Files.deleteIfExists(Paths.get(CRYPT_DIR));
+    Files.deleteIfExists(Paths.get(CRYPT_FILES[1]));
+    Files.deleteIfExists(Paths.get(DECRYPT_FILES[1]));
   }
   
   @Rule

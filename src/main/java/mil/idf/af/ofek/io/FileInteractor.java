@@ -31,18 +31,16 @@ public class FileInteractor implements IDataWriter, IDataReader {
   }
   
   public boolean isFile(String srcFilePath) {
-    File f = new File(srcFilePath);
-    return f.isFile();
+    return new File(srcFilePath).isFile();
   }
   
   public boolean isFolder(String srcFilePath) {
-    File f = new File(srcFilePath);
-    return f.isDirectory();
+    return new File(srcFilePath).isDirectory();
   }
   
   public void makeDir(String path) {
-    boolean success = new File(path).mkdirs();
-    if (!success)
+    File f = new File(path);
+    if (!f.isDirectory() && !f.mkdirs())
       throw new IllegalEncryptionTargetException();
   }
   

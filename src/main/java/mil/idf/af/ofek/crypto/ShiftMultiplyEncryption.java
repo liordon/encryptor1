@@ -4,10 +4,10 @@ import java.math.BigInteger;
 
 public class ShiftMultiplyEncryption extends CharToCharEncryptor {
   
-  private int fixKey(int key){
-    int smallKey=key%NUM_CHARS;
-    if(0 > smallKey){
-      smallKey+=NUM_CHARS;
+  private int fixKey(int key) {
+    int smallKey = key % NUM_CHARS;
+    if (0 > smallKey) {
+      smallKey += NUM_CHARS;
     }
     return smallKey;
   }
@@ -20,17 +20,22 @@ public class ShiftMultiplyEncryption extends CharToCharEncryptor {
   @Override
   public String decrypt(String cypher, int key) {
     int negKey = BigInteger.valueOf(fixKey(key))
-	.modInverse(BigInteger.valueOf(NUM_CHARS)).intValue();
+        .modInverse(BigInteger.valueOf(NUM_CHARS)).intValue();
     return super.encrypt(cypher, negKey);
-  }  
-
+  }
+  
   @Override
   protected int encryptionMorph(int charVal, int key) {
-    return (charVal*key) % NUM_CHARS;
+    return (charVal * key) % NUM_CHARS;
   }
-
+  
   @Override
   protected int decryptionMorph(int charVal, int negKey) {
-    return (charVal*negKey) % NUM_CHARS;
+    return (charVal * negKey) % NUM_CHARS;
+  }
+  
+  @Override
+  public String getName() {
+    return "shift multiply encryption";
   }
 }

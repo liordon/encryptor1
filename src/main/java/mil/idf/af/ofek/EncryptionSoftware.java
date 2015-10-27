@@ -3,56 +3,60 @@ package mil.idf.af.ofek;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Random;
 
 import mil.idf.af.ofek.crypto.DoubleEncryption;
 import mil.idf.af.ofek.crypto.EncryptionAlgorithm;
 import mil.idf.af.ofek.crypto.ShiftUpEncryption;
+import mil.idf.af.ofek.logs.EncryptionEvent;
+import mil.idf.af.ofek.logs.EncryptionLogger;
 
 public class EncryptionSoftware {
   private static EncryptionAlgorithm ea = new DoubleEncryption(
                                             new ShiftUpEncryption());
-  private static FileEncryptor       fe = new FileEncryptor(ea);
+  private static EncryptionEvent     ee = new EncryptionEvent();
+  private static FileEncryptor       fe = new FileEncryptor(ea, ee);
   private static BufferedReader      in = new BufferedReader(
                                             new InputStreamReader(System.in));
   
-  private static void intErrMsg() {
-    System.out.println("your input was not an int, please try again");
-  }
-  
-  private static void illegalOptionErrMsg(String choice) {
-    System.out.println(choice + "is an illegal option! you criminal!");
-  }
-  
-  private static void fileReadingErrMsg() {
-    System.out.println("sorry, this file could not be read.");
+  private static String readFromUser(String request) {
+    System.out.println(request);
+    String $ = null;
+    try {
+      $ = in.readLine();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return $;
   }
   
   public static void main(String[] args) {
+    ee.addObserver(new EncryptionLogger());
     Integer choice = 1;
     while (choice != 0) {
       System.out.println("what would you like to do?\n"
           + "1 encrypt a plaintext file\n" + "2 decrypt an encrypted file\n"
-          + "3 encrypt an entire folder\n" + "4 decrypt an encrypted folder\n"
-          + "0 quit");
+          + "3 encrypt an entire folder\n" + "0 quit");
       try {
         choice = Integer.parseInt(in.readLine());
       } catch (IOException e) {
-        // TODO Auto-generated catch block
+        System.out.println("not an integer input");
         e.printStackTrace();
-      } catch (NumberFormatException e) {
-        intErrMsg();
       }
       System.out.println();
       switch (choice) {
         case (1):
-          encryptionProcess();
+          singleEncryptionProcess();
           break;
         case (2):
-          decryptionProcess();
+          singleDecryptionProcess();
+          break;
+        case (3):
+          folderEncryptionProcess();
           break;
         default:
-          illegalOptionErrMsg(choice.toString());
+          System.out.println(choice.toString() + "is not a legal option");
         case (0):
           ;
       }
@@ -60,26 +64,54 @@ public class EncryptionSoftware {
     
   }
   
-  private static void encryptionProcess() {
-    String path = "";
-    System.out.println("please specify the path for the plaintext file");
+  private static void singleEncryptionProcess() {
+    int key = new Random().nextInt(999) + 1;
+    String path = readFromUser("please specify the path for the plaintext file");
+    FilePathParser fpp = new FilePathParser(path);
     
     try {
-      path = (in.readLine());
-    } catch (IOException e) {
-      System.out.println("something went wrong with your input.");
-      e.printStackTrace();
-      return;
-    }
-    
-    try {
-      FilePathParser fpp = new FilePathParser(path);
-      int key = new Random().nextInt(999) + 1;
-      
       fe.storeKey(key, fpp.getKeyName());
       fe.encryptFile(path, fpp.getKeyName(), fpp.getEncryptedName());
     } catch (IOException e) {
-      fileReadingErrMsg();
+      e.printStackTrace();
+      return;
+    }
+    System.out.println("encryption completed succeddfully!");
+  }
+  
+  private static void singleDecryptionProcess() {
+    String keyPath = readFromUser("please specify the path for the key file");
+    String cypherPath = readFromUser("please specify the path "
+        + "for the encrypted file");
+    FilePathParser fpp = new FilePathParser(cypherPath);
+    
+    try {
+      fe.decryptFile(cypherPath, keyPath, fpp.getDecryptedName());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
+    }
+    System.out.println("decryption completed succeddfully!");
+  }
+  
+  private static void folderEncryptionProcess() {
+    int key = new Random().nextInt(999) + 1;
+    String path = readFromUser("please specify the path for the "
+        + "plaintext directory");
+    FilePathParser fpp = new FilePathParser(path);
+    fe.createDirectory(fpp.getEncryptedFolderPath());
+    
+    try {
+      fe.storeKey(key, fpp.getFolderKeyName());
+      
+      String[] filesToEncrypt = fe.getDirContent(path);
+      filesToEncrypt = keepOnlyTxt(path, filesToEncrypt);
+      String[] encryptionTargetFiles = encryptedFilesNames(
+          fpp.getEncryptedFolderPath(), filesToEncrypt);
+      
+      fe.encryptFiles(filesToEncrypt, fpp.getFolderKeyName(),
+          encryptionTargetFiles);
+    } catch (IOException e) {
       e.printStackTrace();
       return;
     }
@@ -87,34 +119,26 @@ public class EncryptionSoftware {
     System.out.println("encryption completed succeddfully!");
   }
   
-  private static void decryptionProcess() {
-    String cypherPath;
-    String keyPath;
-    try {
-      System.out.println("please specify the path for the encrypted file");
-      cypherPath = in.readLine();
-      
-      System.out.println("please specify the path for the key file");
-      keyPath = in.readLine();
-      
-    } catch (IOException e) {
-      System.out.println("something went wrong with your file paths.");
-      e.printStackTrace();
-      return;
-    }
-    FilePathParser fpp = new FilePathParser(cypherPath);
+  private static String[] encryptedFilesNames(String encryptionFolderPath,
+      String[] filesToEncrypt) {
     
-    try {
-      fe.decryptFile(cypherPath, keyPath, fpp.getDecryptedName());
-    } catch (IOException e) {
-      fileReadingErrMsg();
-      e.printStackTrace();
-      return;
+    ArrayList<String> $ = new ArrayList<String>();
+    for (String f : filesToEncrypt) {
+      FilePathParser fpp = new FilePathParser(f);
+      $.add(encryptionFolderPath + "/" + fpp.getFileName() + fpp.getExtention());
     }
-    System.out.println("decryption completed succeddfully!");
+    
+    return $.toArray(new String[$.size()]);
   }
   
-  // private static void folderEncryption(){
-  //
-  // }
+  private static String[] keepOnlyTxt(String originalFolderPath,
+      String[] filesToEncrypt) {
+    ArrayList<String> $ = new ArrayList<String>();
+    for (String f : filesToEncrypt) {
+      FilePathParser fpp = new FilePathParser(f);
+      if (fpp.getExtention().equals(".txt"))
+        $.add(originalFolderPath + "/" + f);
+    }
+    return $.toArray(new String[$.size()]);
+  }
 }

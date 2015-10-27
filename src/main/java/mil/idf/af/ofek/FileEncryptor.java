@@ -5,13 +5,16 @@ import java.io.IOException;
 
 import mil.idf.af.ofek.crypto.EncryptionAlgorithm;
 import mil.idf.af.ofek.io.FileInteractor;
+import mil.idf.af.ofek.logs.EncryptionEvent;
 
 public class FileEncryptor {
-  private static FileInteractor      fi = new FileInteractor();
-  private static EncryptionAlgorithm ea;
+  private static FileInteractor     fi = new FileInteractor();
+  private final EncryptionAlgorithm ea;
+  private final EncryptionEvent     ee;
   
-  public FileEncryptor(EncryptionAlgorithm algo) {
+  public FileEncryptor(EncryptionAlgorithm algo, EncryptionEvent event) {
     ea = algo;
+    ee = event;
   }
   
   public void storeKey(Integer key, String keyPath)
@@ -23,28 +26,20 @@ public class FileEncryptor {
     return Integer.parseInt(fi.readData(keyPath));
   }
   
-  public void encryptFile(String srcFilePath, String keyPath, String cypherPath)
-      throws IOException {
-    int key = loadKey(keyPath);
-    writeEncryption(srcFilePath, cypherPath, key);
-  }
-  
   private void writeEncryption(String srcFilePath, String cypherPath, int key)
       throws IOException {
     String msg = fi.readData(srcFilePath);
+    ee.encryptionStarted(srcFilePath, cypherPath, ea.toString());
     fi.writeData(ea.encrypt(msg, key), cypherPath);
-  }
-  
-  public void decryptFile(String srcFilePath, String keyPath,
-      String plainTextPath) throws IOException {
-    int key = loadKey(keyPath);
-    writeDecryption(srcFilePath, plainTextPath, key);
+    ee.encryptionEnded();
   }
   
   private void writeDecryption(String srcFilePath, String plainTextPath, int key)
       throws IOException, FileNotFoundException {
     String msg = fi.readData(srcFilePath);
+    ee.decryptionStarted(srcFilePath, plainTextPath, ea.toString());
     fi.writeData(ea.decrypt(msg, key), plainTextPath);
+    ee.decryptionEnded();
   }
   
   public String[] getDirContent(String dirPath) {
@@ -69,5 +64,20 @@ public class FileEncryptor {
     
     for (int i = 0; i < srcFiles.length; ++i)
       writeDecryption(srcFiles[i], plainFiles[i], key);
+  }
+  
+  private String[] wrap(String s) {
+    String[] $ = { s };
+    return $;
+  }
+  
+  public void encryptFile(String srcFilePath, String keyPath, String cypherPath)
+      throws IOException {
+    encryptFiles(wrap(srcFilePath), keyPath, wrap(cypherPath));
+  }
+  
+  public void decryptFile(String srcFilePath, String keyPath,
+      String plainTextPath) throws IOException {
+    decryptFiles(wrap(srcFilePath), keyPath, wrap(plainTextPath));
   }
 }
