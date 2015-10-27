@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ofek.logs.EncryptionEventTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-27T08:32:10" hostname="lior-virtual-machine" time="0.233">
+  <properties/>
+  <testcase name="subsequentDecryptionEventsThrowException" classname="ofek.logs.EncryptionEventTest" time="0.01"/>
+  <testcase name="encryptionEventsAreTimedCorrectly" classname="ofek.logs.EncryptionEventTest" time="0.19"/>
+  <testcase name="subsequentEncryptionEventsThrowException" classname="ofek.logs.EncryptionEventTest" time="0.001"/>
+  <testcase name="endingEncryptionWithoutStartingItThrowsException" classname="ofek.logs.EncryptionEventTest" time="0.001"/>
+  <testcase name="encryptionAndDecryptionEventsReturnsSpecifiedParameters" classname="ofek.logs.EncryptionEventTest" time="0.001"/>
+  <testcase name="endingDecryptionWithoutStartingItThrowsException" classname="ofek.logs.EncryptionEventTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

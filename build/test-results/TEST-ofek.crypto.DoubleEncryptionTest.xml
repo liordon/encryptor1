@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ofek.crypto.DoubleEncryptionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-27T08:32:09" hostname="lior-virtual-machine" time="0.621">
+  <properties/>
+  <testcase name="doubleDecryptionCallsArgumentAlgorithmTwice" classname="ofek.crypto.DoubleEncryptionTest" time="0.586"/>
+  <testcase name="doubleEncryptionReversesInRightOrder" classname="ofek.crypto.DoubleEncryptionTest" time="0.01"/>
+  <testcase name="doubleEncryptionCallsArgumentAlgorithmTwice" classname="ofek.crypto.DoubleEncryptionTest" time="0.002"/>
+  <testcase name="doubleEncryptionIsInItselfAnEncryptionAlgorithm" classname="ofek.crypto.DoubleEncryptionTest" time="0.0"/>
+  <testcase name="doubleDecryptionWithDifferentKeysUsesBothKeys" classname="ofek.crypto.DoubleEncryptionTest" time="0.002"/>
+  <testcase name="doubleEncryptionWithDifferentKeysUsesBothKeys" classname="ofek.crypto.DoubleEncryptionTest" time="0.002"/>
+  <testcase name="doubleEncryptionHasSameKeyStrengthAsInnerAlgorithm" classname="ofek.crypto.DoubleEncryptionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ofek.crypto.ShiftUpEncryptionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-27T08:32:10" hostname="lior-virtual-machine" time="0.036">
+  <properties/>
+  <testcase name="bug1_aDisappearsForKey29" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.001"/>
+  <testcase name="bigKeyEncryptionIsStillReversible" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.004"/>
+  <testcase name="unmatchingKeyDoesNotDecrypt" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.0"/>
+  <testcase name="negativeKeyEncryptionIsValid" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.0"/>
+  <testcase name="zeroEncryptionIsMeaningless" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.006"/>
+  <testcase name="sameKeyDecryptionReversesEncryption" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.001"/>
+  <testcase name="encryptedMsgIsDifferentThanOriginal" classname="ofek.crypto.ShiftUpEncryptionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
