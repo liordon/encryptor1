@@ -3,6 +3,7 @@ package mil.idf.af.ofek;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 import mil.idf.af.ofek.crypto.DoubleEncryption;
 import mil.idf.af.ofek.crypto.EncryptionAlgorithm;
@@ -60,9 +61,9 @@ public class EncryptionSoftware {
   }
   
   private static void encryptionProcess() {
+    String path = "";
     System.out.println("please specify the path for the plaintext file");
     
-    String path = "";
     try {
       path = (in.readLine());
     } catch (IOException e) {
@@ -71,9 +72,11 @@ public class EncryptionSoftware {
       return;
     }
     
-    FilePathParser fpp = new FilePathParser(path);
-    
     try {
+      FilePathParser fpp = new FilePathParser(path);
+      int key = new Random().nextInt(999) + 1;
+      
+      fe.storeKey(key, fpp.getKeyName());
       fe.encryptFile(path, fpp.getKeyName(), fpp.getEncryptedName());
     } catch (IOException e) {
       fileReadingErrMsg();
