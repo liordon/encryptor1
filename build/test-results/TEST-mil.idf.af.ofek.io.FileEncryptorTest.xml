@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="mil.idf.af.ofek.io.FileEncryptorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2015-11-02T12:15:00" hostname="lior-virtual-machine" time="0.054">
+  <properties/>
+  <testcase name="encryptionAndDecryptionUseArgumentAlgorithm" classname="mil.idf.af.ofek.io.FileEncryptorTest" time="0.037"/>
+  <testcase name="encryptionAndDecryptionStoreResultsInSpecifiedFiles" classname="mil.idf.af.ofek.io.FileEncryptorTest" time="0.002"/>
+  <testcase name="multipleDecryptionsAreFunctional" classname="mil.idf.af.ofek.io.FileEncryptorTest" time="0.006"/>
+  <testcase name="multipleEncryptionsAreFunctional" classname="mil.idf.af.ofek.io.FileEncryptorTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

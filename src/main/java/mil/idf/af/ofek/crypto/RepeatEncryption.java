@@ -37,4 +37,8 @@ public class RepeatEncryption implements EncryptionAlgorithm {
     return numCrypt.toString() + " times " + ea.getName();
   }
   
+  @Override
+  public RepeatEncryption clone() throws CloneNotSupportedException {
+    return (RepeatEncryption) super.clone();
+  }
 }

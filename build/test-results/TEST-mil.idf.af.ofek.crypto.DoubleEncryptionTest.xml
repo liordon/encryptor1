@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="mil.idf.af.ofek.crypto.DoubleEncryptionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-11-02T12:15:00" hostname="lior-virtual-machine" time="0.035">
+  <properties/>
+  <testcase name="doubleDecryptionCallsArgumentAlgorithmTwice" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.011"/>
+  <testcase name="doubleEncryptionReversesInRightOrder" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.002"/>
+  <testcase name="doubleEncryptionCallsArgumentAlgorithmTwice" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.001"/>
+  <testcase name="doubleEncryptionIsInItselfAnEncryptionAlgorithm" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.0"/>
+  <testcase name="doubleDecryptionWithDifferentKeysUsesBothKeys" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.001"/>
+  <testcase name="doubleEncryptionWithDifferentKeysUsesBothKeys" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.001"/>
+  <testcase name="doubleEncryptionHasSameKeyStrengthAsInnerAlgorithm" classname="mil.idf.af.ofek.crypto.DoubleEncryptionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

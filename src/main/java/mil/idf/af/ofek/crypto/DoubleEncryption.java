@@ -13,7 +13,7 @@ public class DoubleEncryption implements EncryptionAlgorithm {
    */
   @Override
   public String encrypt(String msg, int key) {
-    return ea.encrypt(ea.encrypt(msg, key), key + 1);
+    return encrypt(msg, key, key + 1);
   }
   
   /**
@@ -22,7 +22,7 @@ public class DoubleEncryption implements EncryptionAlgorithm {
    */
   @Override
   public String decrypt(String cypher, int key) {
-    return ea.decrypt(ea.decrypt(cypher, key), key + 1);
+    return decrypt(cypher, key, key + 1);
   }
   
   public String encrypt(String msg, int key1, int key2) {
@@ -41,5 +41,10 @@ public class DoubleEncryption implements EncryptionAlgorithm {
   @Override
   public String getName() {
     return "double " + ea.getName();
+  }
+  
+  @Override
+  public DoubleEncryption clone() throws CloneNotSupportedException {
+    return (DoubleEncryption) super.clone();
   }
 }

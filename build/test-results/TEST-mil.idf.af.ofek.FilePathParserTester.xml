@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="mil.idf.af.ofek.FilePathParserTester" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-11-02T12:15:00" hostname="lior-virtual-machine" time="0.011">
+  <properties/>
+  <testcase name="canTellPathFromFile" classname="mil.idf.af.ofek.FilePathParserTester" time="0.001"/>
+  <testcase name="canGiveEncryptedSuffixToFilePath" classname="mil.idf.af.ofek.FilePathParserTester" time="0.0"/>
+  <testcase name="canTellFileExtentionFromTheRest" classname="mil.idf.af.ofek.FilePathParserTester" time="0.0"/>
+  <testcase name="canTellFileNameFromEncryptionSuffix" classname="mil.idf.af.ofek.FilePathParserTester" time="0.001"/>
+  <testcase name="canTellFileNameFromExtention" classname="mil.idf.af.ofek.FilePathParserTester" time="0.001"/>
+  <testcase name="canGiveDecryptedSuffixToFilePath" classname="mil.idf.af.ofek.FilePathParserTester" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

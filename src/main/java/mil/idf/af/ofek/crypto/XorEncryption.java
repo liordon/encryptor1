@@ -25,4 +25,9 @@ public class XorEncryption implements EncryptionAlgorithm {
   public String getName() {
     return "Xor encryption";
   }
+  
+  @Override
+  public XorEncryption clone() throws CloneNotSupportedException {
+    return (XorEncryption) super.clone();
+  }
 }

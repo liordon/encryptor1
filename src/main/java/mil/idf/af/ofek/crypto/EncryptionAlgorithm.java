@@ -1,6 +1,6 @@
 package mil.idf.af.ofek.crypto;
 
-public interface EncryptionAlgorithm {
+public interface EncryptionAlgorithm extends Cloneable {
   
   public String encrypt(String msg, int key);
   
@@ -9,4 +9,6 @@ public interface EncryptionAlgorithm {
   public int getKeyStrength();
   
   public String getName();
+  
+  public EncryptionAlgorithm clone() throws CloneNotSupportedException;
 }

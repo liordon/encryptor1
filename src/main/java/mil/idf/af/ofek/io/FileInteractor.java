@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FileInteractor implements IDataWriter, IDataReader {
+public class FileInteractor {
   
   public FileInteractor() {}
   
-  @Override
-  public void writeData(String data, String fileName)
+  public void writeToFile(String data, String fileName)
       throws FileNotFoundException {
     FileOutputStream f = new FileOutputStream(fileName);
     
@@ -25,8 +24,7 @@ public class FileInteractor implements IDataWriter, IDataReader {
     }
   }
   
-  @Override
-  public String readData(String fileName) throws IOException {
+  public String readFromFile(String fileName) throws IOException {
     return new String(Files.readAllBytes(Paths.get(fileName)));
   }
   
@@ -34,20 +32,4 @@ public class FileInteractor implements IDataWriter, IDataReader {
     return new File(srcFilePath).isFile();
   }
   
-  public boolean isFolder(String srcFilePath) {
-    return new File(srcFilePath).isDirectory();
-  }
-  
-  public void makeDir(String path) {
-    File f = new File(path);
-    if (!f.isDirectory() && !f.mkdirs())
-      throw new IllegalEncryptionTargetException();
-  }
-  
-  public String[] contentOf(String srcFolderPath) {
-    File f = new File(srcFolderPath);
-    if (!f.isDirectory())
-      throw new IllegalEncryptionTargetException();
-    return f.list();
-  }
 }

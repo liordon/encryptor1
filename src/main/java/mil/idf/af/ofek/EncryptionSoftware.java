@@ -9,22 +9,30 @@ import java.util.Random;
 import mil.idf.af.ofek.crypto.DoubleEncryption;
 import mil.idf.af.ofek.crypto.EncryptionAlgorithm;
 import mil.idf.af.ofek.crypto.ShiftUpEncryption;
+import mil.idf.af.ofek.io.DirectoryInteractor;
+import mil.idf.af.ofek.io.DirectoryProcessor;
+import mil.idf.af.ofek.io.FileInteractor;
+import mil.idf.af.ofek.io.SyncDirectoryProcessor;
 import mil.idf.af.ofek.logs.EncryptionEvent;
 import mil.idf.af.ofek.logs.EncryptionLogger;
 
 public class EncryptionSoftware {
-  private static EncryptionAlgorithm ea = new DoubleEncryption(
-                                            new ShiftUpEncryption());
-  private static EncryptionEvent     ee = new EncryptionEvent();
-  private static FileEncryptor       fe = new FileEncryptor(ea, ee);
-  private static BufferedReader      in = new BufferedReader(
-                                            new InputStreamReader(System.in));
+  private static EncryptionAlgorithm algorithm      = new DoubleEncryption(
+                                                        new ShiftUpEncryption());
+  private static EncryptionEvent     event          = new EncryptionEvent();
+  private static FileInteractor      fileInteractor = new FileInteractor();
+  private static FileEncryptor       encryptor      = new FileEncryptor(
+                                                        algorithm, event,
+                                                        fileInteractor);
+  private static BufferedReader      userInput      = new BufferedReader(
+                                                        new InputStreamReader(
+                                                            System.in));
   
   private static String readFromUser(String request) {
     System.out.println(request);
     String $ = null;
     try {
-      $ = in.readLine();
+      $ = userInput.readLine();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -32,14 +40,14 @@ public class EncryptionSoftware {
   }
   
   public static void main(String[] args) {
-    ee.addObserver(new EncryptionLogger());
+    event.addObserver(new EncryptionLogger());
     Integer choice = 1;
     while (choice != 0) {
       System.out.println("what would you like to do?\n"
           + "1 encrypt a plaintext file\n" + "2 decrypt an encrypted file\n"
           + "3 encrypt an entire folder\n" + "0 quit");
       try {
-        choice = Integer.parseInt(in.readLine());
+        choice = Integer.parseInt(userInput.readLine());
       } catch (IOException e) {
         System.out.println("not an integer input");
         e.printStackTrace();
@@ -70,8 +78,8 @@ public class EncryptionSoftware {
     FilePathParser fpp = new FilePathParser(path);
     
     try {
-      fe.storeKey(key, fpp.getKeyName());
-      fe.encryptFile(path, fpp.getKeyName(), fpp.getEncryptedName());
+      encryptor.storeKey(key, fpp.getKeyName());
+      encryptor.encryptFile(path, fpp.getKeyName(), fpp.getEncryptedName());
     } catch (IOException e) {
       e.printStackTrace();
       return;
@@ -86,7 +94,7 @@ public class EncryptionSoftware {
     FilePathParser fpp = new FilePathParser(cypherPath);
     
     try {
-      fe.decryptFile(cypherPath, keyPath, fpp.getDecryptedName());
+      encryptor.decryptFile(cypherPath, keyPath, fpp.getDecryptedName());
     } catch (IOException e) {
       e.printStackTrace();
       return;
@@ -96,26 +104,26 @@ public class EncryptionSoftware {
   
   private static void folderEncryptionProcess() {
     int key = new Random().nextInt(999) + 1;
-    String path = readFromUser("please specify the path for the "
-        + "plaintext directory");
+    String path = readFromUser("please specify the path for the plaintext folder");
     FilePathParser fpp = new FilePathParser(path);
-    fe.createDirectory(fpp.getEncryptedFolderPath());
+    new DirectoryInteractor().makeDirInPath(fpp.getEncryptedFolderPath());
     
     try {
-      fe.storeKey(key, fpp.getFolderKeyName());
+      encryptor.storeKey(key, fpp.getFolderKeyName());
+      DirectoryProcessor dirProcessor = new SyncDirectoryProcessor(encryptor);
+      dirProcessor.encryptFolder(path, key);
       
-      String[] filesToEncrypt = fe.getDirContent(path);
-      filesToEncrypt = keepOnlyTxt(path, filesToEncrypt);
-      String[] encryptionTargetFiles = encryptedFilesNames(
-          fpp.getEncryptedFolderPath(), filesToEncrypt);
+      // String[] filesToEncrypt = fe.getDirContent(path);
+      // filesToEncrypt = keepOnlyTxt(path, filesToEncrypt);
+      // String[] encryptionTargetFiles = encryptedFilesNames(
+      // fpp.getEncryptedFolderPath(), filesToEncrypt);
       
-      fe.encryptFiles(filesToEncrypt, fpp.getFolderKeyName(),
-          encryptionTargetFiles);
+      // fe.encryptFiles(filesToEncrypt, fpp.getFolderKeyName(),
+      // encryptionTargetFiles);
     } catch (IOException e) {
       e.printStackTrace();
       return;
     }
-    
     System.out.println("encryption completed succeddfully!");
   }
   
@@ -141,4 +149,5 @@ public class EncryptionSoftware {
     }
     return $.toArray(new String[$.size()]);
   }
+  
 }

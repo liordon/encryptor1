@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="mil.idf.af.ofek.io.FileInteractorTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2015-11-02T12:15:00" hostname="lior-virtual-machine" time="0.027">
+  <properties/>
+  <testcase name="canWriteSomething" classname="mil.idf.af.ofek.io.FileInteractorTest" time="0.004"/>
+  <testcase name="canListDirectoryContent" classname="mil.idf.af.ofek.io.FileInteractorTest" time="0.003"/>
+  <testcase name="canCreateNewFolder" classname="mil.idf.af.ofek.io.FileInteractorTest" time="0.001"/>
+  <testcase name="writtenFileCanBeRead" classname="mil.idf.af.ofek.io.FileInteractorTest" time="0.005"/>
+  <testcase name="canReadPreexistingFile" classname="mil.idf.af.ofek.io.FileInteractorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

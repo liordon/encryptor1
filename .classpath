@@ -7,13 +7,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/usr/share/java/log4j-1.2.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/log4j-1.2-1.2.17.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/log4j-over-slf4j.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/log4j-over-slf4j-1.7.7.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/ant-apache-log4j.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/ant-apache-log4j-1.9.4.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/slf4j-log4j12.jar"/>
-	<classpathentry kind="lib" path="/usr/share/java/slf4j-log4j12-1.7.7.jar"/>
+	<classpathentry kind="lib" path="lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
