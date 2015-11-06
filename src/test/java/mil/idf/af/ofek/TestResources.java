@@ -6,6 +6,8 @@ public enum TestResources {
   public static final String   FAKE_CYPHER     = "balbashushu";
   public static final String   RESOURCE_DIR    = "src/test/resources";
   public static final String   CRYPT_DIR       = RESOURCE_DIR + "/encrypted";
+  public static final String   FAT_DIR         = RESOURCE_DIR + "/bigCrypt";
+  public static final String   FAT_CRYPT_DIR   = FAT_DIR + "/encrypted";
   public static final String   PLAIN_NAME      = "hello";
   public static final String   EXTENSION       = ".txt";
   public static final String   PLAIN_FILE      = RESOURCE_DIR + "/"
@@ -27,4 +29,5 @@ public enum TestResources {
       "bang", "arang", PLAIN_NAME + "2" + EXTENSION, "shambalulu" };
   
   public static final String   ALGORITHM       = "capt. crypto";
+  public static final Integer  FAT_DIR_SIZE    = 100;
 }

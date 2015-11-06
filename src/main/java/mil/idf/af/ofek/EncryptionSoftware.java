@@ -3,7 +3,6 @@ package mil.idf.af.ofek;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Random;
 
 import mil.idf.af.ofek.crypto.DoubleEncryption;
@@ -111,43 +110,12 @@ public class EncryptionSoftware {
     try {
       encryptor.storeKey(key, fpp.getFolderKeyName());
       DirectoryProcessor dirProcessor = new SyncDirectoryProcessor(encryptor);
-      dirProcessor.encryptFolder(path, key);
-      
-      // String[] filesToEncrypt = fe.getDirContent(path);
-      // filesToEncrypt = keepOnlyTxt(path, filesToEncrypt);
-      // String[] encryptionTargetFiles = encryptedFilesNames(
-      // fpp.getEncryptedFolderPath(), filesToEncrypt);
-      
-      // fe.encryptFiles(filesToEncrypt, fpp.getFolderKeyName(),
-      // encryptionTargetFiles);
+      dirProcessor.encryptFolder(path, fpp.getEncryptedFolderPath());
     } catch (IOException e) {
       e.printStackTrace();
       return;
     }
     System.out.println("encryption completed succeddfully!");
-  }
-  
-  private static String[] encryptedFilesNames(String encryptionFolderPath,
-      String[] filesToEncrypt) {
-    
-    ArrayList<String> $ = new ArrayList<String>();
-    for (String f : filesToEncrypt) {
-      FilePathParser fpp = new FilePathParser(f);
-      $.add(encryptionFolderPath + "/" + fpp.getFileName() + fpp.getExtention());
-    }
-    
-    return $.toArray(new String[$.size()]);
-  }
-  
-  private static String[] keepOnlyTxt(String originalFolderPath,
-      String[] filesToEncrypt) {
-    ArrayList<String> $ = new ArrayList<String>();
-    for (String f : filesToEncrypt) {
-      FilePathParser fpp = new FilePathParser(f);
-      if (fpp.getExtention().equals(".txt"))
-        $.add(originalFolderPath + "/" + f);
-    }
-    return $.toArray(new String[$.size()]);
   }
   
 }

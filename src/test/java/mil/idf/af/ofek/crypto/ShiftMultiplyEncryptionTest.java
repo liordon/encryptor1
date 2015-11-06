@@ -16,7 +16,7 @@ public class ShiftMultiplyEncryptionTest extends EncryptionAlgorithmTest {
   
   @Before
   public void setUp() {
-    key = Math.abs(new Random().nextInt()) + 1;
+    key = Math.abs(new Random().nextInt(94)) + 2;
   }
   
   @Test
@@ -36,7 +36,7 @@ public class ShiftMultiplyEncryptionTest extends EncryptionAlgorithmTest {
   
   @Test
   public void nonUnitEncryptionIsDifferentFromOrigin() {
-    assertNotEquals(MSG, encryption($, key + 2));
+    assertNotEquals(MSG, encryption($, key));
   }
   
   @Test
@@ -47,8 +47,8 @@ public class ShiftMultiplyEncryptionTest extends EncryptionAlgorithmTest {
   
   @Test
   public void unmatchingKeyDoesNotDecrypt() {
-    int key2 = Math.abs(new Random().nextInt()) + 1;
-    if (key2 != key)
-      assertNotEquals(MSG, $.decrypt(encryption($, key), key2));
+    int key2 = Math.abs(new Random().nextInt(95)) + 1 + key;
+    assertNotEquals(key, key2);
+    assertNotEquals(MSG, $.decrypt($.encrypt(MSG, key), key2));
   }
 }
